@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+@* layui 表单验证
+    1.在<form>表单 上添加 class="layui-form"
+    2.需要在JavaScript 中 引入 layui 的 form 模块
+         layui.use('form', function () {
+                var form = layui.form;
+            });
+    3.在验证 表单元素上添加   autocomplete="off"
+    lay-verify="required|pass"  定义验证规则
+
+    4.在提交按钮上 添加  lay-submit lay-filter="formDemo"
+        监听提交表单事件
+
+        form.on('submit(formDemo)', function (data) {
+
+            //提交表单要做什么
+
+        });
+
+*@
+<form class="layui-form" action="/User/SaveAddAdmin" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="Admin1" value="" autocomplete="off" lay-verify="required|pass" class="layui-input" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="UserName" value="" autocomplete="off" lay-verify="required|pass" class="layui-input" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="text" name="Pwd" value="" class="layui-input" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+
+            <input type="submit" lay-submit lay-filter="formDemo" value="保存" class="layui-btn" />
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    layui.use('form', function () {
+        var form = layui.form;
+
+        //各种基于事件的操作，下面会有进一步介绍
+        form.verify({
+            username: function (value, item) { //value：表单的值、item：表单的DOM对象
+                if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                    return '用户名不能有特殊字符';
+                }
+                if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if (/^\d+\d+\d$/.test(value)) {
+                    return '用户名不能全为数字';
+                }
+            }
+
+            //我们既支持上述函数式的方式，也支持下述数组的形式
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+             , pass: [/^[\S]{1,5}$/, '菜单名必须1到5位，且不能出现空格']
+        });
+
+
+        form.on('submit(formDemo)', function (data) {
+
+
+
+        });
+
+    });
+</script>

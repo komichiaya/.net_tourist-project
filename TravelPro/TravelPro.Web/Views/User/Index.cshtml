@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using TravelPro.Web.Models
+@model List<Admin>
+
+
+<form class="layui-form" action="/User/QueryAdmin" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="Admin1" placeholder="请输入用户名" lay-vertype="tips" lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+
+            <input type="submit" lay-submit lay-filter="formDemo" value="查询" class="layui-btn" />
+        </div>
+    </div>
+</form>
+
+
+<a href="/User/AddAdmin" class="layui-btn  layui-btn-primary">
+    <i class="layui-icon">&#xe608;</i>
+    添加菜单
+</a>
+<table id="tm" class="layui-table">
+    <tr>
+        <th>ID</th>
+        <th>账号</th>
+        <th>用户名</th>
+        <th>密码</th>
+        <th>操作</th>
+    </tr>
+    @{
+        foreach (var m in Model)
+        {
+            <tr>
+                <td>
+                    @m.Id
+                </td>
+                <td>
+                    @m.Admin1
+                </td>
+                <td>
+                    @m.Username
+                </td>
+                <td>
+                    @m.Pwd
+                </td>
+                <td>
+                    <a href="/User/DeleAdmin/@m.Id" class="layui-btn layui-btn-xs">
+                        <i class="layui-icon">&#xe640;</i>
+                        删除
+                    </a>
+                    <a href="/User/ModifyAdmin/@m.Id" class="layui-btn layui-btn-xs">
+                        <i class="layui-icon">&#xe642;</i>
+                        修改
+                    </a>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+
+<script type="text/javascript">
+
+    layui.use('form', function () {
+        var form = layui.form;
+    });
+
+</script>
+

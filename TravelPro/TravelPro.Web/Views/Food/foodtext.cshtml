@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using TravelPro.Web.Models
+@model food
+<!-- about -->
+<section class="about py-5">
+    <div class="container py-lg-5 py-sm-4">
+        <div class="row">
+            <div class="col-lg-6 about-left">
+                <h3><strong>@Model.foodName</strong></h3>
+                <p class="mt-4">@Model.CreateTime</p>
+                <p class="mt-3">
+                    @Model.fooddetails
+                </p>
+            </div>
+            <div class="col-lg-6 about-right text-lg-right mt-lg-0 mt-5">
+                <img src="@Model.foodImgUrl" alt="" class="img-fluid abt-image" />
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //about -->

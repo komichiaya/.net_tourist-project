@@ -1,0 +1,30 @@
+﻿@using TravelPro.Web.Models
+@model List<Text>
+<div id="h_note">
+    <div class="cw1200">
+        <div class="title"><img alt="" src="~/Content/Travel/images/Index/title3.jpg" /></div>
+        <div class="con">
+            <ul>
+                @{
+                    foreach (var m in Model)
+                    {
+                        <text>
+                            <li>
+                                <div class="box">
+                                    <div class="pic">
+                                        <a href="/Mation/MationText/@m.Id"><img alt="" class="scale-effect" src="@m.TextURL" /></a>
+                                    </div>
+                                    <div class="cont">
+                                        <h3>@m.TextTile</h3>
+                                        <p>@m.CreateTime</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </text>
+                    }
+                }
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TraverBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Admin1" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="Pwd" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="food">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MenuId" Type="Int32" />
+    <Property Name="foodName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="foodImgUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="fooddetails" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="CreateUserId" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="ModifyUserId" Type="Int32" />
+    <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+    <Property Name="IsDele" Type="Int32" />
+    <Property Name="OrderBy" Type="Int32" />
+    <NavigationProperty Name="Menu" Relationship="Self.FK_food_Menu" FromRole="food" ToRole="Menu" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MenuName" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="MenuUrl" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="CoverImg" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="IsDele" Type="Int32" />
+    <Property Name="OrderBy" Type="Int32" />
+    <Property Name="CreateUserId" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="ModifyUserId" Type="Int32" />
+    <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="foods" Relationship="Self.FK_food_Menu" FromRole="Menu" ToRole="food" />
+    <NavigationProperty Name="Sceneries" Relationship="Self.FK_Scenery_Menu" FromRole="Menu" ToRole="Scenery" />
+    <NavigationProperty Name="Texts" Relationship="Self.FK_Text_Menu" FromRole="Menu" ToRole="Text" />
+    <NavigationProperty Name="TopBanners" Relationship="Self.FK_TopBanner_Menu" FromRole="Menu" ToRole="TopBanner" />
+  </EntityType>
+  <EntityType Name="Scenery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MenuId" Type="Int32" />
+    <Property Name="SceneryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SceneryImgUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Scenerydetails" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="CreateUserId" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="ModifyUserId" Type="Int32" />
+    <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+    <Property Name="IsDele" Type="Int32" />
+    <Property Name="OrderBy" Type="Int32" />
+    <NavigationProperty Name="Menu" Relationship="Self.FK_Scenery_Menu" FromRole="Scenery" ToRole="Menu" />
+  </EntityType>
+  <EntityType Name="Text">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MenuId" Type="Int32" />
+    <Property Name="TextTile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TextURL" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Textdetails" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="CreateUserId" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="ModifyUserId" Type="Int32" />
+    <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+    <Property Name="IsDele" Type="Int32" />
+    <Property Name="OrderBy" Type="Int32" />
+    <NavigationProperty Name="Menu" Relationship="Self.FK_Text_Menu" FromRole="Text" ToRole="Menu" />
+  </EntityType>
+  <EntityType Name="TopBanner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BannerTile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ImgUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="MenuId" Type="Int32" />
+    <Property Name="CreateUserId" Type="Int32" />
+    <Property Name="CreateTime" Type="DateTime" Precision="3" />
+    <Property Name="ModifyUserId" Type="Int32" />
+    <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+    <Property Name="IsDele" Type="Int32" />
+    <Property Name="OrderBy" Type="Int32" />
+    <NavigationProperty Name="Menu" Relationship="Self.FK_TopBanner_Menu" FromRole="TopBanner" ToRole="Menu" />
+  </EntityType>
+  <Association Name="FK_food_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="food" Type="Self.food" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="food">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Scenery_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="Scenery" Type="Self.Scenery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Scenery">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Text_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="Text" Type="Self.Text" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Text">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TopBanner_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="TopBanner" Type="Self.TopBanner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TopBanner">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TraverBDEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="foods" EntityType="Self.food" />
+    <EntitySet Name="Menus" EntityType="Self.Menu" />
+    <EntitySet Name="Sceneries" EntityType="Self.Scenery" />
+    <EntitySet Name="Texts" EntityType="Self.Text" />
+    <EntitySet Name="TopBanners" EntityType="Self.TopBanner" />
+    <AssociationSet Name="FK_food_Menu" Association="Self.FK_food_Menu">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="food" EntitySet="foods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Scenery_Menu" Association="Self.FK_Scenery_Menu">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="Scenery" EntitySet="Sceneries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Text_Menu" Association="Self.FK_Text_Menu">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="Text" EntitySet="Texts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TopBanner_Menu" Association="Self.FK_TopBanner_Menu">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="TopBanner" EntitySet="TopBanners" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

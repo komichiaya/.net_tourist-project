@@ -1,0 +1,132 @@
+﻿@using TravelPro.Web.Models
+@model Menu
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<form class="layui-form" id="form1">
+    <input type="hidden" name="Id" value="@Model.ID" />
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名</label>
+        <div class="layui-input-inline">
+            @* 验证必填 lay-verify="required" *@
+            <input type="text" name="MenuName" value="@Model.MenuName" required lay-verify="required" placeholder="图片标题" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单地址</label>
+        <div class="layui-input-inline">
+            @* 验证必填 lay-verify="required" *@
+            <input type="text" name="MenuUrl" value="@Model.MenuUrl" required lay-verify="required" placeholder="图片标题" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">封面图片</label>
+        @* 验证图片必须选择 lay-verify="required" lay-reqtext="必须选择图片" 没有选择图片时的提示信息*@
+        <input type="hidden" id="pic" value="@Model.ImgUrl" required lay-verify="required" lay-reqtext="必须选择图片" />
+        <div class="layui-input-block">
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test1">上传图片</button>
+
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="demo1" src="@Model.ImgUrl" style="height:150px;width:150px">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">序号</label>
+        <div class="layui-input-inline">
+            @* 验证必填 lay-verify="required" *@
+            <input type="text" name="OrderBy" value="@Model.OrderBy" required lay-verify="required" placeholder="图片标题" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否删除</label>
+        <div class="layui-input-inline">
+            @* 验证必填 lay-verify="required" *@
+            <input type="text" name="IsDele" value="@Model.IsDele" required lay-verify="required" placeholder="图片标题" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+
+    <div class="layui-form-item" style="display:none">
+        <div class="layui-input-block">
+
+            <button class="layui-btn" id="btnSave" lay-submit lay-filter="formDemo">保存</button>
+            @* 上传图片是触发的事件按钮， *@
+            <button type="button" class="layui-btn" id="btn1" style="display:none">保存</button>
+
+        </div>
+    </div>
+
+</form>
+
+<script>
+    var $ = null;
+
+
+    function save() {
+        $("#btnSave").click();
+
+    }
+
+    layui.use(['form', 'upload', 'jquery'], function () {
+        $ = layui.jquery;
+        var upload = layui.upload
+        , form = layui.form;
+
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            //只有表单通过验证后，才触发 图片上传的事件
+            $.ajax({
+                url: "/Menu/SaveModifyMenu",
+                type: "post",
+                data: new FormData($("#form1")[0]),
+                async: false,
+                contentType: false,   //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
+                processData: false,   //当设置为true的时候,jquery ajax 提交的时候不会序列化 data，而是直接使用data
+                error: function (request) {
+                    parent.layer.alert("网络超时");
+                },
+                success: function (res) {
+                    //上传成功
+                    if (res.result) {
+                        layer.msg(res.msg, function () {
+
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+
+                        });
+
+                        return;
+                    }
+                    else { //如果上传失败
+                        return layer.msg(res.msg)
+                    }
+                }
+            });
+            return false;
+        });
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+          , auto: false
+          , choose: function (obj) {
+              debugger;
+              //预读本地文件示例，不支持ie8
+              obj.preview(function (index, file, result) {
+                  $('#demo1').attr('src', result); //图片链接（base64）
+
+              });
+          }
+        });
+    });
+
+</script>

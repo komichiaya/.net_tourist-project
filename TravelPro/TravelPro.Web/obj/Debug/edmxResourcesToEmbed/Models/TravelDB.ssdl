@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TraverBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Admin" Type="varchar" MaxLength="16" />
+    <Property Name="Pwd" Type="varchar" MaxLength="16" />
+    <Property Name="Username" Type="varchar" MaxLength="16" />
+  </EntityType>
+  <EntityType Name="food">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuId" Type="int" />
+    <Property Name="foodName" Type="varchar" MaxLength="50" />
+    <Property Name="foodImgUrl" Type="varchar" MaxLength="250" />
+    <Property Name="fooddetails" Type="varchar" MaxLength="2000" />
+    <Property Name="CreateUserId" Type="int" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="ModifyUserId" Type="int" />
+    <Property Name="ModifyTime" Type="datetime" />
+    <Property Name="IsDele" Type="int" />
+    <Property Name="OrderBy" Type="int" />
+    <Property Name="MenuName" Type="varchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuName" Type="varchar" MaxLength="16" />
+    <Property Name="MenuUrl" Type="varchar" MaxLength="16" />
+    <Property Name="CoverImg" Type="varchar" MaxLength="16" />
+    <Property Name="IsDele" Type="int" />
+    <Property Name="OrderBy" Type="int" />
+    <Property Name="CreateUserId" Type="int" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="ModifyUserId" Type="int" />
+    <Property Name="ModifyTime" Type="datetime" />
+    <Property Name="ImgUrl" Type="varchar" MaxLength="1550" />
+  </EntityType>
+  <EntityType Name="Scenery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuId" Type="int" />
+    <Property Name="SceneryName" Type="varchar" MaxLength="50" />
+    <Property Name="SceneryImgUrl" Type="varchar" MaxLength="250" />
+    <Property Name="Scenerydetails" Type="varchar" MaxLength="2000" />
+    <Property Name="CreateUserId" Type="int" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="ModifyUserId" Type="int" />
+    <Property Name="ModifyTime" Type="datetime" />
+    <Property Name="IsDele" Type="int" />
+    <Property Name="OrderBy" Type="int" />
+    <Property Name="MenuName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Text">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MenuId" Type="int" />
+    <Property Name="TextTile" Type="varchar" MaxLength="50" />
+    <Property Name="TextURL" Type="varchar" MaxLength="250" />
+    <Property Name="Textdetails" Type="varchar" MaxLength="2000" />
+    <Property Name="CreateUserId" Type="int" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="ModifyUserId" Type="int" />
+    <Property Name="ModifyTime" Type="datetime" />
+    <Property Name="IsDele" Type="int" />
+    <Property Name="OrderBy" Type="int" />
+    <Property Name="MenuName" Type="varchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="TopBanner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BannerTile" Type="varchar" MaxLength="50" />
+    <Property Name="ImgUrl" Type="varchar" MaxLength="250" />
+    <Property Name="MenuId" Type="int" />
+    <Property Name="CreateUserId" Type="int" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="ModifyUserId" Type="int" />
+    <Property Name="ModifyTime" Type="datetime" />
+    <Property Name="IsDele" Type="int" />
+    <Property Name="OrderBy" Type="int" />
+    <Property Name="MenuName" Type="varchar" MaxLength="16" />
+  </EntityType>
+  <Association Name="FK_food_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="food" Type="Self.food" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="food">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Scenery_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="Scenery" Type="Self.Scenery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Scenery">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Text_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="Text" Type="Self.Text" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Text">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TopBanner_Menu">
+    <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+    <End Role="TopBanner" Type="Self.TopBanner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menu">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TopBanner">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TraverBDModelStoreContainer">
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="food" EntityType="Self.food" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Scenery" EntityType="Self.Scenery" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Text" EntityType="Self.Text" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TopBanner" EntityType="Self.TopBanner" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_food_Menu" Association="Self.FK_food_Menu">
+      <End Role="Menu" EntitySet="Menu" />
+      <End Role="food" EntitySet="food" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Scenery_Menu" Association="Self.FK_Scenery_Menu">
+      <End Role="Menu" EntitySet="Menu" />
+      <End Role="Scenery" EntitySet="Scenery" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Text_Menu" Association="Self.FK_Text_Menu">
+      <End Role="Menu" EntitySet="Menu" />
+      <End Role="Text" EntitySet="Text" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TopBanner_Menu" Association="Self.FK_TopBanner_Menu">
+      <End Role="Menu" EntitySet="Menu" />
+      <End Role="TopBanner" EntitySet="TopBanner" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

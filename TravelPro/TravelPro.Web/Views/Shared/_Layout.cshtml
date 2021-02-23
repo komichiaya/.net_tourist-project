@@ -1,0 +1,42 @@
+﻿@using TravelPro.Web.Models
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link href="~/Content/Travel/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Travel/css/style1.css" rel="stylesheet" />
+    <link href="~/Content/Travel/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Travel/css/css_slider.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- header -->
+    <header>
+        @{Html.RenderAction("GetMenu", "Menu");}
+    </header>
+    <!-- //header -->
+    <!-- banner -->
+    @{Html.RenderAction("GetBanner", "TopBanner", new { id = ViewBag.MenuId });}
+    <!-- //banner -->
+    @RenderBody()
+    <!-- copyright -->
+    <div class="copyright py-3 text-center">
+        <p>Copyright &copy; 2019.<a href="/Login/Index" target="_blank" title="">陶然居</a></p>
+    </div>
+    <!-- //copyright -->
+    <!-- move top -->
+    <div class="move-top text-right">
+        <a href="#home" class="move-top"><span class="fa fa-angle-up  mb-3" aria-hidden="true"></span></a>
+    </div>
+    <!-- move top -->
+</body>
+</html>

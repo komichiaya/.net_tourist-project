@@ -1,0 +1,77 @@
+﻿@using TravelPro.Web.Models
+@model List<TopBanner>
+
+
+
+@{
+
+    if (Model == null)
+    {
+        return;
+    }
+    if (Model.Count == 1)
+    {
+
+        <div class="banner_erji">
+            <img src="@Model[0].ImgUrl" width="1000" height="187" alt="" title="" />
+
+        </div>
+
+    }
+    else
+    {
+
+
+        <div class="banner">
+
+            <div class="bd">
+
+                <ul>
+
+                    @*<li style="background:url(/Content/Travel/images/banner_4.jpg) no-repeat center top;"></li>
+
+                        <li style="background:url(/Content/Travel/images/banner_2.jpg) no-repeat center top;"></li>*@
+
+                    @{
+
+        foreach (var item in Model)
+        {
+            <text>
+                <li style="background:url(@item.ImgUrl) no-repeat center top;"></li></text>
+        }
+
+                    }
+
+                </ul>
+
+            </div>
+
+            <div class="hd">
+
+                <ul>
+
+                    <li></li>
+
+                    <li></li>
+
+                </ul>
+
+            </div>
+
+            <a class="prev" href="javascript:void(0)"></a>
+
+            <a class="next" href="javascript:void(0)"></a>
+
+        </div>
+        <!--调用JS模块图片滚动-->
+        <script type="text/javascript">
+            jQuery(".banner").slide({ titCell: ".hd ul", mainCell: ".bd ul", effect: "fold", delayTime: 1000, interTime: 5000, autoPlay: true, autoPage: true, trigger: "click" });</script>
+
+
+    }
+
+
+}
+
+
+

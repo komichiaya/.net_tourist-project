@@ -1,0 +1,18 @@
+﻿@using TravelPro.Web.Models
+@model List<Menu>
+@{
+    foreach (var m in Model)
+    {
+        var url = m.MenuUrl + "/" + m.ID;
+        <div class="col-md-3 col-sm-6 col-6 destinations-grids text-center">
+            <div class="image-position position-relative">
+                <img src="@m.ImgUrl" class="img-fluid" alt="" />
+            </div>
+            <div class="destinations-info">
+                <div class="caption mb-lg-3">
+                    <a href="@url">@m.MenuName</a>
+                </div>
+            </div>
+        </div>
+    }
+    }

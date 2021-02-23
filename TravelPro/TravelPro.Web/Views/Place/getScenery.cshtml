@@ -1,0 +1,32 @@
+﻿@using TravelPro.Web.Models
+@model List<Scenery>
+<script src="~/Content/Travel/js/jquery-1.8.3.min.js"></script>
+<script src="~/Content/Travel/js/amazeui.js"></script>
+<link href="~/Content/Travel/css/amazeui.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/style.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/style1.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/css_slider.css" rel="stylesheet" />
+<div id="h_project">
+    <div class="cw1200">
+        <div class="title"><img src="~/Content/Travel/images/Index/title1.jpg" /></div>
+        <div class="con">
+            <ul>
+                @{
+                    foreach (var m in Model)
+                    {
+                        <text>
+                            <li>
+                                <a href="/Scenery/SceneryText/@m.Id">
+                                    <img alt="" class="scale-effect" src="@m.SceneryImgUrl" height="350" />
+                                    <p>@m.SceneryName</p>
+                                </a>
+                            </li>
+                        </text>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>

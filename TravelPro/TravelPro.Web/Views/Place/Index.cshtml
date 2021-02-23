@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using TravelPro.Web.Models
+@model  TopBanner
+<script src="~/Content/Travel/js/jquery-1.8.3.min.js"></script>
+<script src="~/Content/Travel/js/amazeui.js"></script>
+<link href="~/Content/Travel/css/amazeui.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/style.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/style1.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/Travel/css/css_slider.css" rel="stylesheet" />
+
+<!------------------景点-------------------->
+@{Html.RenderAction("getScenery", "Place", new { id = ViewBag.MenuId });}
+<!------------------美食-------------------->
+@{Html.RenderAction("getFood", "Place", new { id = ViewBag.MenuId });}
+<!------------------资讯-------------------->
+@{Html.RenderAction("getNews", "Place", new { id = ViewBag.MenuId });}

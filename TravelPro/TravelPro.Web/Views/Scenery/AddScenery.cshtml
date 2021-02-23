@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "AddScenery";
+    Layout = null;
+}
+
+@using TravelPro.Web.Models;
+@model List<Menu>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<form class="layui-form" id="form1">
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择菜单</label>
+        <div class="layui-input-block">
+            @* 验证必填 lay-verify="required" *@
+            <select name="MenuId" lay-verify="required">
+
+                @{
+                    foreach (var m in Model)
+                    {
+
+                        <text>
+                            <option value="@m.ID">@m.MenuName</option>
+                        </text>
+
+                    }
+
+                }
+
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">景区标题</label>
+        <div class="layui-input-inline">
+            @* 验证必填 lay-verify="required" *@
+            <input type="text" name="SceneryName" required lay-verify="required" placeholder="景区标题" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        @* 验证图片必须选择 lay-verify="required" lay-reqtext="必须选择图片" 没有选择图片时的提示信息*@
+        <input type="hidden" id="pic" required lay-verify="required" lay-reqtext="必须选择图片" />
+        <div class="layui-input-block">
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test1">上传图片</button>
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="demo1" style="height:150px;width:150px">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">景区介绍</label>
+        <div class="layui-input-inline">
+            @* 验证必填 lay-verify="required" *@
+            <textarea name="Scenerydetails" re required lay-verify="required" placeholder="景区介绍" autocomplete="off" class="layui-input" style="width:400px;height:300px;"></textarea>
+
+            @*<input type="text" name="Scenerydetails" required lay-verify="required" placeholder="景区介绍" autocomplete="off" class="layui-input">*@
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+
+            <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
+            @* 上传图片是触发的事件按钮， *@
+            <button type="button" class="layui-btn" id="btn1" style="display:none">保存</button>
+
+        </div>
+    </div>
+
+</form>
+
+<script>
+
+    layui.use(['form', 'upload'], function () {
+        var $ = layui.jquery
+        , upload = layui.upload
+        , form = layui.form;
+
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+
+            //只有表单通过验证后，才触发 图片上传的事件
+            $("#btn1").click();
+            return false;
+        });
+
+
+        //表单序列化成Json 对象
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+
+
+
+
+
+
+
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+          , url: '/Scenery/SaveScenery'
+          , auto: false
+          , bindAction: '#btn1'
+          , choose: function (obj) {
+
+              //预读本地文件示例，不支持ie8
+              obj.preview(function (index, file, result) {
+                  $('#demo1').attr('src', result); //图片链接（base64）
+                  //选择图片后，将隐藏域设置为 已选择图片
+                  $("#pic").val("图片已选择");
+              });
+          }
+          , before: function (obj) {
+
+              this.data = $('#form1').serializeObject()//序列化 表单数据，转换成Json 格式
+          }
+          , done: function (res) {
+              //上传成功
+              if (res.result) {
+                  layer.msg(res.msg, function () {
+
+                      var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                      parent.layer.close(index); //再执行关闭
+
+                  });
+
+                  return;
+              }
+              else { //如果上传失败
+                  return layer.msg(res.msg)
+              }
+
+
+          }
+          , error: function () {
+              //演示失败状态，并实现重传
+              var demoText = $('#demoText');
+              demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+              demoText.find('.demo-reload').on('click', function () {
+                  uploadInst.upload();
+              });
+          }
+        });
+
+    });
+</script>

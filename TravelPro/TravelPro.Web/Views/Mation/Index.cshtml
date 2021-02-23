@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
+
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+
+    //格式化时间格式【格式化时间字符串】
+    Date.prototype.Format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1, //月份 
+            "d+": this.getDate(), //日 
+            "h+": this.getHours(), //小时 
+            "m+": this.getMinutes(), //分 
+            "s+": this.getSeconds(), //秒 
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+            "S": this.getMilliseconds() //毫秒 
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+        return fmt;
+    }
+
+    layui.use('table', function () {
+        var table = layui.table;
+
+        $ = layui.jquery;
+
+        var mytable = table.render({
+            elem: '#test'
+           , url: '/Mation/GetPageData'
+           , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+           , title: 'Banner数据列表'
+           , method: "post"
+           , cols: [[
+             { type: 'checkbox', fixed: 'left' }//复选框
+             , { field: 'Id', title: 'ID', width: 70, fixed: 'left', unresize: true, }
+             , { field: 'TextTile', title: '资讯标题', width: 100 }
+             , { field: 'MenuName', title: '菜单名', width: 120, }
+             , {
+                 field: 'TextURL', title: '图片', templet: function (res) {//图片加载，处理
+                     return '<img src="' + res.TextURL + '"/>'
+                 }
+             }
+              , { field: 'Textdetails', title: '资讯详情', width: 820, }
+             , { field: 'MenuId', title: '菜单ID', hide: true, width: 80, }
+
+             , { field: 'CreateUserId', width: 80, title: '创建人' }
+             , {
+                 field: 'CreateTime', title: '创建时间', width: 120, templet: function (res) {//对时间的处理
+                     if (res.CreateTime != null) {
+                         var s = res.CreateTime.replace(/\//g, '');
+                         var date = (new Date(Date.parse(eval(s)))).Format('yyyy-MM-dd');
+                         return date;
+                     }
+                     else {
+                         return "";
+                     }
+                 }
+             }
+             , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120 }
+           ]]
+           , page: true
+        });
+
+        //头工具栏事件
+        //新增
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'add':
+                    layer.open({
+                        type: 2
+                        , content: "/Mation/AddMation"
+                        , title: "添加Mation"
+                        , area: ['800px', '800px']
+
+                    });
+                    break;
+
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            //console.log(obj)
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+
+                    $.ajax({
+                        url: '/Mation/DeleMation'
+                        , type: 'post'
+                        , data: { id: data.Id }
+                        , datatype: "json"
+                        , success: function (res) {
+                            if (res.code > 0) {
+                                layer.msg("删除成功");
+                                obj.del();
+
+                            }
+                            else {
+                                layer.msg("删除失败");
+                            }
+
+                            layer.close(index);
+                        }
+
+                    });
+
+
+
+                });
+            } else if (obj.event === 'edit') {
+                layer.open({
+                    type: 2
+                        , content: "/Mation/ModifyMation/" + data.Id
+                        , title: "修改Mation"
+                        , area: ['800px', '800px']
+                        , btn: ['保存', '取消']
+                      , yes: function (index, layero) {
+                          //按钮保存点击 执行的事件
+                          var body = layer.getChildFrame('body', index);
+                          //得到iframe页的窗口对象，
+                          var iframeWin = window[layero.find('iframe')[0]['name']];
+                          // 执行iframe页的方法：
+                          iframeWin.save();
+                      }
+                      , btn2: function (index, layero) {
+                          //按钮取消 点击 执行的事件
+
+                          //return false 开启该代码可禁止点击该按钮关闭
+                      }
+                      , cancel: function () {
+                          //右上角关闭回调
+
+                          //return false 开启该代码可禁止点击该按钮关闭
+                      }
+
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "修改菜单";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using TravelPro.Web.Models
+@model Admin
+
+
+
+<form class="layui-form" action="/User/SaveModifyAdmin" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="Admin1" value="@Model.Admin1" class="layui-input" lay-verify="required|pass" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="UserName" value="@Model.Username" class="layui-input" lay-verify="required|pass" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="text" name="Pwd" value="@Model.Pwd" class="layui-input" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"></div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+
+            <input type="submit" lay-submit lay-filter="formDemo" value="保存" class="layui-btn" />
+        </div>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+
+    layui.use('form', function () {
+        var form = layui.form;
+        //各种基于事件的操作，下面会有进一步介绍
+        form.verify({
+             pass: [/^[\S]{1,5}$/, '菜单名必须1到5位，且不能出现空格']
+        });
+
+
+
+    });
+
+</script>
